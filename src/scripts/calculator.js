@@ -1,10 +1,11 @@
 window.onload = function() {
-    let a = '';
-    let b = '';
+    let firstNumber = '';
+    let secondNumber = '';
     let expressionResult = '';
     let selectedOperation = null;
 
-    const outputElement = document.getElementById("result");
+    const expressionElement = document.getElementById("expression");
+    const resultElement = document.getElementById("result");
     const digitButtons = document.querySelectorAll('[id ^= "btn_digit_"]');
 
     digitButtons.forEach(button => {
@@ -15,112 +16,160 @@ window.onload = function() {
     });
 
     document.getElementById("btn_op_mult").onclick = function() { 
-        if (a === '') return;
+        if (firstNumber === '') return;
+
+        if (selectedOperation === '') selectedOperation = 'x';
+
+        if (firstNumber !== '' && secondNumber !== '') {
+            expressionResult = calculateExpression(firstNumber, secondNumber, selectedOperation);
+
+            expressionElement.innerHTML = firstNumber + ' ' + selectedOperation + ' ' + secondNumber;
+            firstNumber = expressionResult.toString()
+            secondNumber = '';
+            resultElement.innerHTML = firstNumber;
+        }
+
         selectedOperation = 'x';
     }
     document.getElementById("btn_op_plus").onclick = function() { 
-        if (a === '') return;
-        selectedOperation = '+';
+        if (firstNumber === '') return;
+
+         if (selectedOperation === '') selectedOperation = '+';
+
+        if (firstNumber !== '' && secondNumber !== '') {
+            expressionResult = calculateExpression(firstNumber, secondNumber, selectedOperation);
+
+            expressionElement.innerHTML = firstNumber + ' ' + selectedOperation + ' ' + secondNumber;
+            firstNumber = expressionResult.toString()
+            secondNumber = '';
+            resultElement.innerHTML = firstNumber;
+        }
+
+         selectedOperation = '+';
     }
     document.getElementById("btn_op_minus").onclick = function() { 
-        if (a === '') return;
-        selectedOperation = '-';
+        if (firstNumber === '') return;
+
+        if (selectedOperation === '') selectedOperation = '-';
+
+        if (firstNumber !== '' && secondNumber !== '') {
+            expressionResult = calculateExpression(firstNumber, secondNumber, selectedOperation);
+
+            expressionElement.innerHTML = firstNumber + ' ' + selectedOperation + ' ' + secondNumber;
+            firstNumber = expressionResult.toString()
+            secondNumber = '';
+            resultElement.innerHTML = firstNumber;
+        }
+
+        selectedOperation = '-';   
     }
     document.getElementById("btn_op_div").onclick = function() { 
-        if (a === '') return;
+        if (firstNumber === '') return;
+
+        if (selectedOperation === '') selectedOperation = '/';
+
+        if (firstNumber !== '' && secondNumber !== '') {
+            expressionResult = calculateExpression(firstNumber, secondNumber, selectedOperation);
+
+            expressionElement.innerHTML = firstNumber + ' ' + selectedOperation + ' ' + secondNumber;
+            firstNumber = expressionResult.toString()
+            secondNumber = '';
+            resultElement.innerHTML = firstNumber;
+        }
+
         selectedOperation = '/';
     }
 
     document.getElementById("btn_op_clear").onclick = function() { 
-        a = ''
-        b = ''
-        selectedOperation = ''
-        expressionResult = ''
-        outputElement.innerHTML = 0
+        firstNumber = '';
+        secondNumber = '';
+        selectedOperation = '';
+        expressionResult = '';
+        expressionElement = '';
+        resultElement.innerHTML = 0;
     }
 
     document.getElementById("btn_op_sign").onclick = function() { 
         if (!selectedOperation) {
-            a = (-parseFloat(a)).toString();
-            expressionResult = a;
+            firstNumber = (-parseFloat(firstNumber)).toString();
+            expressionResult = firstNumber;
         } else {
-            b = (-parseFloat(b)).toString();
-            expressionResult = b;
+            secondNumber = (-parseFloat(secondNumber)).toString();
+            expressionResult = secondNumber;
         }
 
-        outputElement.innerHTML = expressionResult
+        resultElement.innerHTML = expressionResult;
     }
 
     document.getElementById("btn_op_percent").onclick = function() { 
         if (!selectedOperation) {
-            expressionResult = (parseFloat(a) / 100).toString();
-            a = expressionResult;
+            expressionResult = (parseFloat(firstNumber) / 100).toString();
+
+            firstNumber = expressionResult;
         } else {
-            const percentOfA = (parseFloat(a) * parseFloat(b)) / 100
+            let percentOfA = (parseFloat(firstNumber) * parseFloat(secondNumber)) / 100;
 
             switch(selectedOperation) {
                 case '+':
-                    expressionResult = (parseFloat(a) + percentOfA).toString();
+                    expressionResult = (parseFloat(firstNumber) + percentOfA).toString();
                     break;
                 case '-':
-                    expressionResult = (parseFloat(a) - percentOfA).toString();
+                    expressionResult = (parseFloat(firstNumber) - percentOfA).toString();
                     break;
                 case 'x':
-                    expressionResult = (parseFloat(a) * (parseFloat(b) / 100)).toString();
+                    expressionResult = (parseFloat(firstNumber) * (parseFloat(secondNumber) / 100)).toString();
                     break;
                 case '/':
-                    expressionResult = (parseFloat(a) / (parseFloat(b) / 100)).toString();
+                    expressionResult = (parseFloat(firstNumber) / (parseFloat(secondNumber) / 100)).toString();
                     break;
             }
         }
 
-        a = expressionResult;
-        b = '';
+        firstNumber = expressionResult;
+        secondNumber = '';
         selectedOperation = null;
-        
-        outputElement.innerHTML = expressionResult
+        resultElement.innerHTML = expressionResult;
     }
 
     document.getElementById("btn_op_equal").onclick = function() { 
-        if (a === '' || b === '' || !selectedOperation)
-            return
-            
-        let isBinaryOperator = true;
-        switch(selectedOperation) { 
-            case 'x':
-                expressionResult = parseFloat(+a) * parseFloat(+b)
-                break;
-            case '+':
-                expressionResult = parseFloat(+a) + parseFloat(+b)
-                break;
-            case '-':
-                expressionResult = parseFloat(+a) - parseFloat(+b)
-                break;
-            case '/':
-                expressionResult = parseFloat(+a) / parseFloat(+b)
-                break;
-            default:
-                break;
-        }
-        
-        a = expressionResult.toString()
-        b = ''
-        selectedOperation = null
+        if (firstNumber === '' || secondNumber === '' || !selectedOperation)
+            return;
 
-        outputElement.innerHTML = a
+        expressionResult = calculateExpression(firstNumber, secondNumber, selectedOperation);
+
+        expressionElement.innerHTML = firstNumber + ' ' + selectedOperation + ' ' + secondNumber;
+        firstNumber = expressionResult.toString();
+        secondNumber = '';
+        selectedOperation = null;
+        resultElement.innerHTML = firstNumber;
     }
 
     function onDigitButtonClicked(digit) {
         if (!selectedOperation) {
-            if ((digit != '.') || (digit == '.' && !a.includes(digit))) { 
-                a += digit;
+            if ((digit != '.') || (digit == '.' && !firstNumber.includes(digit))) { 
+                firstNumber += digit;
             }
-            outputElement.innerHTML = a;
+            resultElement.innerHTML = firstNumber;
         } else {
-            if ((digit != '.') || (digit == '.' && !b.includes(digit))) { 
-                b += digit;
-                outputElement.innerHTML = b;        
+            if ((digit != '.') || (digit == '.' && !secondNumber.includes(digit))) { 
+                secondNumber += digit;
+                resultElement.innerHTML = secondNumber;        
             }
+        }
+    }
+
+    function calculateExpression(firstValue, secondValue, operation) {
+        switch(operation) { 
+            case 'x':
+                return parseFloat(firstValue) * parseFloat(secondValue);
+            case '+':
+                return parseFloat(firstValue) + parseFloat(secondValue);
+            case '-':
+                return parseFloat(firstValue) - parseFloat(secondValue);
+            case '/':
+                return parseFloat(firstValue) / parseFloat(secondValue);
+            default:
+                return -1;
         }
     }
 }
