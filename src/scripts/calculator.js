@@ -85,7 +85,7 @@ window.onload = function() {
         secondNumber = '';
         selectedOperation = '';
         expressionResult = '';
-        expressionElement = '';
+        expressionElement.innerHTML = '';
         resultElement.innerHTML = 0;
     }
 
