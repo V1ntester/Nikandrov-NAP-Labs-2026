@@ -1,0 +1,7 @@
+{
+    "liveServer.settings.root": "/src/",
+    "liveServer.settings.ignoreFiles": [
+        "**.json",
+        ".vscode/**"
+    ],
+}
