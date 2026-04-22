@@ -1,49 +1,48 @@
-import {BackButtonComponent} from "../../components/back-button/index.js";
-import {MainPage} from "../main/index.js";
-import {ProductComponent} from "../../components/product/index.js";
+import { BackButtonComponent } from "../../components/back-button/index.js";
+import { MainPage } from "../main/index.js";
+import { ProductComponent } from "../../components/product/index.js";
 
 export class ProductPage {
-    constructor(parent, id) {
-        this.parent = parent
-        this.id = id
-    }
+  constructor(parent, data) {
+    this.parent = parent;
+    this.data = data;
+  }
 
-    getData() {
-        return {
-            id: 1,
-            src: "https://i.pinimg.com/originals/c9/ea/65/c9ea654eb3a7398b1f702c758c1c4206.jpg",
-            title: `Акция ${this.id}`,
-            text: "Такой акции вы еще не видели"
-        }
-    }
+  getData() {
+    return this.data;
+  }
 
-    get pageRoot() {
-        return document.getElementById('product-page')
-    }
+  get pageRoot() {
+    return document.getElementById("product-page");
+  }
 
-    getHTML() {
-        return (
-            `
-                <div id="product-page"></div>
-            `
-        )
-    }
+  get productCardContainer() {
+    return document.getElementById("product-card-container");
+  }
 
-    clickBack() {
-        const mainPage = new MainPage(this.parent)
-        mainPage.render()
-    }
+  getHTML() {
+    return `
+                <div id="product-page" class="mt-4">
+                    <div class="container">
+                        <div id="product-card-container">
+                        </div>
+                    </div>
+                </div>
+            `;
+  }
 
-    render() {
-        this.parent.innerHTML = ''
-        const html = this.getHTML()
-        this.parent.insertAdjacentHTML('beforeend', html)
+  clickBack() {
+    const mainPage = new MainPage(this.parent);
+    mainPage.render();
+  }
 
-        const backButton = new BackButtonComponent(this.pageRoot)
-        backButton.render(this.clickBack.bind(this))
+  render() {
+    this.parent.innerHTML = "";
+    const html = this.getHTML();
+    this.parent.insertAdjacentHTML("beforeend", html);
 
-        const data = this.getData()
-        const stock = new ProductComponent(this.pageRoot)
-        stock.render(data)
-    }
+    const data = this.getData();
+    const stock = new ProductComponent(this.productCardContainer);
+    stock.render(data, this.clickBack.bind(this));
+  }
 }

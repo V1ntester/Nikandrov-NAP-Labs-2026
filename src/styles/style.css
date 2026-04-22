@@ -1,0 +1,28 @@
+.alert-primary {
+    color: #ffffff !important;
+    background-color: #272467 !important;
+    border: none !important;
+}
+
+.btn-primary {
+    background-color: #366af2 !important;
+}
+
+.card-img-top {
+    max-height: 140px;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+#product-page .container {
+    margin: 0 auto;
+}
+
+#product-page .img-fluid {
+    width: 100%;
+}
+
+#product-page .btn-primary {
+    margin-top: 12px;
+}
