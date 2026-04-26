@@ -3,19 +3,36 @@ export class ProductCardComponent {
     this.parent = parent;
   }
 
-  getHTML(data) {
+  getHTML(data, isActive = false) {
     return `
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mb-sm-4">
-              <div class="card" style="min-height: 450px; display: flex; flex-direction: column;">
-                  <img class="card-img-top" src="${data.src}" alt="картинка" style="flex-shrink: 0;">
-                  <div class="card-body" style="flex: 1; display: flex; flex-direction: column;">
-                      <h5 class="card-title">${data.title}</h5>
-                      <p class="card-text" style="flex: 1;">${data.text}</p>
-                      <button class="btn btn-primary mt-4" id="click-card-${data.id}" data-id="${data.id}">Подробнее</button>
-                  </div>
-              </div>            
+      <div class="carousel-item ${isActive ? "active" : ""}">
+        <div class="d-flex justify-content-center">
+          
+          <div class="product-card-wrapper">
+            
+            <div class="card product-card">
+              
+              <img class="card-img-top product-card-image" src="${data.src}" alt="картинка">
+
+              <div class="card-body product-card-body">
+                <h5 class="card-title">${data.title}</h5>
+                <p class="card-text product-card-text">${data.text}</p>
+
+                <button 
+                  class="btn btn-primary mt-4"
+                  id="click-card-${data.id}"
+                  data-id="${data.id}">
+                  Подробнее
+                </button>
+              </div>
+
             </div>
-            `;
+
+          </div>
+
+        </div>
+      </div>
+    `;
   }
 
   addListeners(data, listener) {
@@ -24,8 +41,8 @@ export class ProductCardComponent {
       .addEventListener("click", listener);
   }
 
-  render(data, listener) {
-    const html = this.getHTML(data);
+  render(data, listener, isActive = false) {
+    const html = this.getHTML(data, isActive);
     this.parent.insertAdjacentHTML("beforeend", html);
     this.addListeners(data, listener);
   }

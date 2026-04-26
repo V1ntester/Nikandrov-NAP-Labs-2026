@@ -5,10 +5,12 @@ export class AlertComponent {
 
   getHTML(message) {
     return `
-            <div class="alert alert-primary" role="alert">
-            ${message}
-            </div>
-            `;
+      <div class="alert alert-primary alert-marquee" role="alert">
+        <div class="scrolling-text">
+          ${message}
+        </div>
+      </div>
+    `;
   }
 
   render(message) {
