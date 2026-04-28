@@ -1,3 +1,5 @@
+import readlineSync from 'readline-sync';
+
 import { FirstTask } from "./tasks/first-task.js";
 import { SecondTask } from "./tasks/second-task.js";
 import { ThirdTask } from "./tasks/third-task.js"
@@ -9,6 +11,13 @@ const firstTask = new FirstTask();
 console.log(firstTask.solve(firstTestArr, secondTestArr));
 
 const thirdTestArr = ["кот", "ток", "пес"];
+
+let userInput = null;
+
+while (userInput != "*") {
+    userInput = readlineSync.question("Введите слово: ")
+    thirdTestArr.push(userInput);
+}
 
 const secondTask = new SecondTask();
 console.log(secondTask.solve(thirdTestArr));
