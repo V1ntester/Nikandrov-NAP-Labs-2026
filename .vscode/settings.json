@@ -1,5 +1,5 @@
 {
-    "liveServer.settings.root": "/src/",
+    "liveServer.settings.root": "/web/src/",
     "liveServer.settings.ignoreFiles": [
         "**.json",
         ".vscode/**"
